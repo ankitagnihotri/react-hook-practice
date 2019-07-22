@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Greetings from "./Greetings";
+
+function useMedia(query) {
+  let [matches, setMatches] = useState(window.matchMedia(query).matches);
+
+  // cDM, cDU
+  useEffect(() => {
+    let media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+    let listener = () => setMatches(media.matches);
+    media.addListener(listener);
+    return () => media.removeListener(listener);
+  }, [matches, query]);
+  return matches;
+}
 
 function App() {
+  let small = useMedia("(max-width: 400px)");
+  let large = useMedia("(max-width: 1200px)");
+  console.log(small, large);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="media">
+      <h1>Media</h1>
+      <p>Small ? {small ? "yes" : "no"}</p>
+      <p>Large ? {large ? "yes" : "no"}</p>
+      <Greetings />
     </div>
   );
 }
