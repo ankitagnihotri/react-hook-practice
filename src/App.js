@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Greetings from "./Greetings";
+import Greetings from "./Greeting";
 
 function useMedia(query) {
   let [matches, setMatches] = useState(window.matchMedia(query).matches);
@@ -19,7 +19,7 @@ function useMedia(query) {
 
 function App() {
   let small = useMedia("(max-width: 400px)");
-  let large = useMedia("(max-width: 1200px)");
+  let large = useMedia("(min-width: 800px)");
   console.log(small, large);
   return (
     <div className="media">
